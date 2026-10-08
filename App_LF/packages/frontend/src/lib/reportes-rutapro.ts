@@ -39,8 +39,24 @@ export function construirResumenR(plan: Plan): ResumenR[] {
   const prioridades = [...new Set(asignadas.map(r => r.prioridad ?? 'Sin info'))].sort();
   const transitos = [...new Set(asignadas.map(r => r.transitabilidad ?? 'Sin info'))].sort();
 
-  return [...new Set(asignadas.map(r => r.Grupo!))].sort((a, b) => a - b).map(g => {
-    const rows = asignadas.filter(r => r.Grupo === g);
+  // El R agrupa el resumen por Grupo, Tipo_Grupo y Alce.
+  const bloques = new Map<string, Plan>();
+  for (const row of asignadas) {
+    const llave = JSON.stringify([row.Grupo, row.Tipo_Grupo, row.Alce]);
+    const bloque = bloques.get(llave) ?? [];
+    bloque.push(row);
+    bloques.set(llave, bloque);
+  }
+  const compararTexto = (a: string | null, b: string | null) =>
+    a === b ? 0 : a === null ? 1 : b === null ? -1 : a < b ? -1 : 1;
+  return [...bloques.values()].sort((a, b) =>
+    a[0].Grupo! - b[0].Grupo! ||
+    compararTexto(a[0].Tipo_Grupo, b[0].Tipo_Grupo) ||
+    compararTexto(a[0].Alce, b[0].Alce)).map(rows => {
+    const g = rows[0].Grupo!;
+    // Los porcentajes del R se calculan por Grupo.
+    const filasGrupo = asignadas.filter(r => r.Grupo === g);
+    const tonGrupo = filasGrupo.reduce((s, r) => s + (r.tonPred ?? 0), 0);
     const ton = rows.reduce((s, r) => s + (r.tonPred ?? 0), 0);
     const ponderada = (key: keyof Plan[number]) => {
       let numerador = 0, denominador = 0;
@@ -68,14 +84,14 @@ export function construirResumenR(plan: Plan): ResumenR[] {
       Dias_estim: redondear(ton / 960, 2),
     };
     for (const p of prioridades) {
-      const subtotal = rows.filter(r => (r.prioridad ?? 'Sin info') === p)
+      const subtotal = filasGrupo.filter(r => (r.prioridad ?? 'Sin info') === p)
         .reduce((s, r) => s + (r.tonPred ?? 0), 0);
-      resumen['Prio_% ' + p] = ton > 0 ? redondear(subtotal / ton * 100, 2) : null;
+      resumen['Prio_% ' + p] = tonGrupo > 0 ? redondear(subtotal / tonGrupo * 100, 2) : null;
     }
     for (const t of transitos) {
-      const subtotal = rows.filter(r => (r.transitabilidad ?? 'Sin info') === t)
+      const subtotal = filasGrupo.filter(r => (r.transitabilidad ?? 'Sin info') === t)
         .reduce((s, r) => s + (r.tonPred ?? 0), 0);
-      resumen['Trans_% ' + t] = ton > 0 ? redondear(subtotal / ton * 100, 2) : null;
+      resumen['Trans_% ' + t] = tonGrupo > 0 ? redondear(subtotal / tonGrupo * 100, 2) : null;
     }
     return resumen;
   });

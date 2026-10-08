@@ -149,10 +149,21 @@ export default function MapaCosecha({ datos, plan, filtros, frentesActivos, onFi
       const geometry = poligonos.get(llaveSuerte(row.hacienda, row.suerte));
       const color = colorPrioridad(row.prioridad);
       const layer = geometry ? L.geoJSON(geometry, {
-        style: { color: '#555555', weight: 1, fillColor: color, fillOpacity: 0.7 },
+        style: { color: '#2c3e50', weight: 0.8, fillColor: color, fillOpacity: 0.55 },
       }) : L.circleMarker([row.lat!, row.lng!], {
         radius: 5, color: '#555555', fillColor: color, fillOpacity: 0.8,
       });
+      if (geometry) {
+        const label = document.createElement('span');
+        label.textContent = (row.nombre ?? '') + ' - S' + (row.suerte ?? '');
+        layer.bindTooltip(label);
+        layer.on('mouseover', () => layer.setStyle({
+          weight: 2.5, color: '#000', fillOpacity: 0.8,
+        }));
+        layer.on('mouseout', () => layer.setStyle({
+          weight: 0.8, color: '#2c3e50', fillOpacity: 0.55,
+        }));
+      }
       layer.bindPopup(() => popupSuerte(row, [
         ['Nombre', row.nombre], ['Hacienda', row.hacienda], ['Suerte', row.suerte],
         ['Grupo', row.Grupo], ['Tipo', row.Tipo_Grupo], ['Orden de cosecha', row.Orden_Cosecha],
