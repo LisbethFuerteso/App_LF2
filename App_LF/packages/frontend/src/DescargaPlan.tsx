@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { DatosRutaPRO } from './lib/rutapro';
 import {
   construirResumenR, descargarExcel, fechaArchivo, filtrarPlan, programaParaExcel,
-  type FiltrosMapa, type Plan, type FilaExcel,
+  redondearR, type FiltrosMapa, type Plan, type FilaExcel,
 } from './lib/reportes-rutapro';
 
 type Props = {
@@ -41,9 +41,9 @@ export default function DescargaPlan(props: Props) {
           (!props.filtros.alce.length || props.filtros.alce.includes('Todos') || props.filtros.alce.includes(r.Alce ?? '')));
         const kpis: FilaExcel[] = [
           { Indicador: 'Bloques', Valor: grupos.size },
-          { Indicador: 'Toneladas', Valor: Math.round(ton) },
-          { Indicador: 'Área (ha)', Valor: Number(area.toFixed(1)) },
-          { Indicador: 'Tiempo total (h)', Valor: Number((ton / 60 + grupos.size).toFixed(1)) },
+          { Indicador: 'Toneladas', Valor: redondearR(ton, 0) },
+          { Indicador: 'Área (ha)', Valor: redondearR(area, 1) },
+          { Indicador: 'Tiempo total (h)', Valor: redondearR(ton / 60 + grupos.size, 1) },
           { Indicador: 'Frentes activos', Valor: props.frentesActivos },
           { Indicador: 'Filtro Transitabilidad', Valor: props.transitabilidad ? 'Activo' : 'Inactivo' },
           { Indicador: 'Fecha', Valor: new Intl.DateTimeFormat('sv-SE', {

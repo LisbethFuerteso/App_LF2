@@ -772,3 +772,125 @@ body,
 .rutapro-comentario button[type="submit"] { background: #0C25A3; color: white; }
 .rutapro-comentario button:disabled { opacity: .5; }
 .rutapro-comentario [role="alert"] { color: #b42318; }
+
+/* RutaPRO: árbol y manual */
+.rutapro-arbol {
+  width: 92vw;
+  max-width: 92vw;
+  max-height: 94vh;
+  margin: auto;
+  padding: 24px;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  color: #17243a;
+  background: white;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+.rutapro-arbol::backdrop { background: rgba(15, 30, 55, .4); }
+.rutapro-arbol h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+.rutapro-arbol-contenido { height: 80vh; overflow: auto; }
+.rutapro-arbol-grafico svg { width: 100%; height: 1500px; min-width: 500px; }
+.rutapro-arbol footer { display: flex; justify-content: flex-end; padding-top: 12px; }
+.rutapro-arbol button {
+  padding: 9px 14px; border: 1px solid #c9d4e3; border-radius: 7px;
+}
+.rutapro-manual {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 24px;
+  background: linear-gradient(135deg, #0C25A3 0%, #00B1A9 100%);
+  color: white;
+  padding: 40px 50px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(12, 37, 163, .3);
+}
+.rutapro-manual h1 { margin: 0; font-size: 32px; font-weight: 800; }
+.rutapro-manual > div > p { font-size: 16px; margin-top: 10px; opacity: .9; }
+.rutapro-manual-autor {
+  display: inline-block; margin-top: 20px;
+  padding: 10px 16px; border-radius: 6px;
+  background: rgba(255, 255, 255, .15);
+  font-size: 13px; font-weight: 600;
+}
+.rutapro-manual-version { text-align: right; padding-top: 10px; }
+.rutapro-manual .rutapro-manual-version p {
+  font-size: 13px; line-height: 2; opacity: .85;
+}
+@media (max-width: 900px) {
+  .rutapro-manual { grid-template-columns: minmax(0, 1fr); padding: 24px; }
+  .rutapro-manual-version { text-align: left; }
+}
+
+/* RutaPRO: presets e historial */
+.rutapro-escenarios section {
+  border-top: 1px solid #dce4ef;
+  margin-top: 18px; padding-top: 16px;
+}
+.rutapro-escenarios h3, .rutapro-historial h3 {
+  font-size: 16px; font-weight: 700; margin-bottom: 12px;
+}
+.rutapro-escenarios label { display: block; margin: 10px 0 6px; }
+.rutapro-escenarios input, .rutapro-escenarios select {
+  width: 100%; padding: 8px; border: 1px solid #c9d4e3;
+  border-radius: 7px; background: white; color: #17243a;
+}
+.rutapro-escenarios button, .rutapro-historial button {
+  padding: 8px 10px; border: 1px solid #c9d4e3;
+  border-radius: 7px; margin-top: 8px; font-size: 12px;
+}
+.rutapro-escenarios button:disabled, .rutapro-historial button:disabled { opacity: .5; }
+.rutapro-escenarios-botones { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.rutapro-escenarios [role="alert"] { color: #b42318; }
+.rutapro-escenarios p { margin-top: 10px; font-size: 13px; }
+.rutapro-historial table { width: 100%; text-align: left; font-size: 13px; }
+.rutapro-historial th, .rutapro-historial td {
+  padding: 10px; border-bottom: 1px solid #e4eaf2; white-space: nowrap;
+}
+.rutapro-historial input[type="radio"] { margin-right: 5px; }
+
+/* RutaPRO: comparador A/B */
+.rutapro-controles-ab {
+  border-top: 1px solid #dce4ee;
+  padding-top: 16px;
+}
+.rutapro-controles-ab p { margin-top: 10px; }
+.rutapro-comparador { display: grid; gap: 16px; }
+.rutapro-mapas-ab {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.rutapro-mapas-ab section { min-width: 0; }
+.rutapro-mapas-ab h5 {
+  font-weight: 600;
+  color: #0C25A3;
+  margin-bottom: 8px;
+}
+.rutapro-mapa-slot {
+  height: 420px;
+  border: 1px solid #dce4ee;
+  border-radius: 8px;
+}
+.rutapro-comparador th, .rutapro-comparador td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5ebf3;
+}
+.rutapro-comparador tbody tr:nth-child(even) { background: #f5f8fc; }
+@media (max-width: 900px) {
+  .rutapro-mapas-ab { grid-template-columns: 1fr; }
+}
+
+/* RutaPRO: descargas PDF */
+.rutapro-descargas-pdf > div {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.rutapro-descargas-pdf button {
+  padding: 8px 14px; border: 1px solid #cbd8e8;
+  border-radius: 8px; background: #0C25A3; color: white;
+  font: inherit; font-weight: 600; cursor: pointer;
+}
+.rutapro-descargas-pdf button:disabled {
+  opacity: .5; cursor: default;
+}
+.rutapro-descargas-pdf p { margin-top: 8px; }

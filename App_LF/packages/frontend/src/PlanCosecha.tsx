@@ -1,3 +1,10 @@
+import DescargaPDF from './DescargaPDF';
+import { capturarSlot, estadoSlot, type SlotAB } from './lib/comparador-rutapro';
+import { ControlesEscenarios, HistorialEscenarios } from './GestionEscenarios';
+import { useEscenarios } from './hooks/use-escenarios';
+import type { Historial } from './lib/escenarios-rutapro';
+import type { ResumenR } from './lib/reportes-rutapro';
+import ManualRutaPRO from './ManualRutaPRO';
 import MoverSuertes from './MoverSuertes';
 import type { Importaciones } from './lib/mover-suerte';
 import DescargaPlan from './DescargaPlan';
@@ -8,6 +15,8 @@ import { lazy, Suspense, useId, useState } from 'react';
 import type { DatosRutaPRO } from './lib/rutapro';
 import { calcularPlan, parametrosIniciales, type Parametros } from './lib/plan-cosecha';
 
+const ComparadorAB = lazy(() => import('./ComparadorAB'));
+const ArbolDecision = lazy(() => import('./ArbolDecision'));
 const MapaCosecha = lazy(() => import('./MapaCosecha'));
 const ClimaCosecha = lazy(() => import('./ClimaCosecha'));
 
@@ -30,7 +39,41 @@ export default function PlanCosecha({ datos }: Props) {
   const [pestana, setPestana] = useState(0);
   const [filtros, setFiltros] = useState({ ...filtrosIniciales });
   const id = useId();
-  const pestanas = ['🗺️ Mapa', '📊 Resumen por Bloque', '📋 Detalle programa', '🌡️ Monitoreo Climático'];
+  const escenarios = useEscenarios();
+  const [resumenHistorial, setResumenHistorial] = useState<ResumenR[]>();
+  const [origenHistorial, setOrigenHistorial] = useState('');
+
+  function cargarHistorial(h: Historial) {
+    setPlan(h.plan);
+    setResumenHistorial(h.resumen);
+    setParametros(h.parametros);
+    setActivos(h.frentes);
+    setPendiente(h.pendiente);
+    setImportaciones({});
+    setRevisionPlan(n => n + 1);
+    setPagina(0);
+    setError('');
+    setOrigenHistorial('Plan basado en historial: ' + h.nombre + ' · ' + h.fecha);
+    setFiltros({
+      grupo: [...new Set(h.plan.flatMap(r => r.Grupo === null ? [] : [r.Grupo]))]
+        .sort((a, b) => a - b).slice(0, 10).map(String),
+      alce: ['Todos'], prioridad: ['Todas'],
+    });
+  }
+
+  const [slotA, setSlotA] = useState<SlotAB>();
+  const [slotB, setSlotB] = useState<SlotAB>();
+  const [avisoSlot, setAvisoSlot] = useState('');
+
+  function guardarSlot(nombre: 'A' | 'B') {
+    if (!plan) return;
+    const slot = capturarSlot(plan, parametros, activos);
+    if (nombre === 'A') setSlotA(slot);
+    else setSlotB(slot);
+    setAvisoSlot('✓ Slot ' + nombre + ' guardado.');
+  }
+  const [arbolAbierto, setArbolAbierto] = useState(false);
+  const pestanas = ['🗺️ Mapa', '📊 Resumen por Bloque', '📋 Detalle programa', '🆚 Comparador A/B', '🕓 Historial', '📖 Acerca y Manual', '🌡️ Monitoreo Climático'];
 
   function cambiar(key: keyof Parametros, value: number | boolean) {
     setParametros(p => ({ ...p, [key]: value }));
@@ -41,6 +84,8 @@ export default function PlanCosecha({ datos }: Props) {
       const resultado = calcularPlan(datos.df_programa,
         frentes.filter(f => f.alce && activos.includes(f.alce)), parametros);
       setPlan(resultado);
+      setResumenHistorial(undefined);
+      setOrigenHistorial('');
       setImportaciones({});
       setRevisionPlan(n => n + 1);
       setError('');
@@ -59,7 +104,7 @@ export default function PlanCosecha({ datos }: Props) {
   }
   const asignadas = filtrarPlan(plan ?? [], filtros);
 
-  const resumenR = construirResumenR(plan ?? []);
+  const resumenR = resumenHistorial ?? construirResumenR(plan ?? []);
   const resumenVisibleR = resumenR.filter(r =>
     (!filtros.grupo.length || filtros.grupo.includes(String(r.Grupo))) &&
     (!filtros.alce.length || filtros.alce.includes('Todos') || filtros.alce.includes(r.Alce ?? '')));
@@ -146,8 +191,40 @@ export default function PlanCosecha({ datos }: Props) {
       {pendiente && <p role="status" className="text-300">⚠️ Cambios sin aplicar</p>}
       {error && <p role="alert" className="text-destructive">{error}</p>}
 
+      <ControlesEscenarios estado={escenarios}
+        parametros={parametros} frentes={activos} plan={plan}
+        pendiente={pendiente} publicacionJson={JSON.stringify(datos.publicacion)}
+        onPreset={preset => {
+          setParametros(preset.parametros);
+          setActivos(preset.frentes);
+          setPendiente(true);
+          setError('');
+        }}
+        onHistorial={cargarHistorial} />
+
+      <section className="rutapro-controles-ab">
+        <h4 className="font-heading text-500">🆚 Comparador A/B</h4>
+        <div className="rutapro-frentes-actions">
+          <button type="button" className={boton} disabled={!plan}
+            onClick={() => guardarSlot('A')}>📥 Guardar como A</button>
+          <button type="button" className={boton} disabled={!plan}
+            onClick={() => guardarSlot('B')}>📥 Guardar como B</button>
+        </div>
+        <p><b>A:</b> {estadoSlot(slotA)}<br /><b>B:</b> {estadoSlot(slotB)}</p>
+        {avisoSlot && <p role="status">{avisoSlot}</p>}
+      </section>
   </aside>
   <section className="rutapro-resultados rounded-xl border bg-card p-600 space-y-400">
+    <button type="button" className={boton}
+      onClick={() => setArbolAbierto(true)}>
+      🌳 Ver árbol de decisión
+    </button>
+    {arbolAbierto && (
+      <Suspense fallback={<p role="status">Preparando árbol de decisión…</p>}>
+        <ArbolDecision onCerrar={() => setArbolAbierto(false)} />
+      </Suspense>
+    )}
+    {origenHistorial && <p role="status">{origenHistorial}</p>}
     {!plan && (
       <p className="text-300">
         Configure los parámetros y pulse 🔄 Calcular plan.
@@ -165,6 +242,7 @@ export default function PlanCosecha({ datos }: Props) {
           </p>
 
 
+<DescargaPDF plan={plan} filtros={filtros} pendiente={pendiente} />
 <DescargaPlan tipo="ejecutivo" datos={datos} plan={plan} filtros={filtros}
             frentesActivos={activos.length} transitabilidad={parametros.filtroTransitabilidad}
             pendiente={pendiente} />
@@ -202,6 +280,7 @@ export default function PlanCosecha({ datos }: Props) {
                 radio={parametros.radio} importaciones={importaciones}
                 onCambio={(nuevoPlan, nuevasImportaciones) => {
                   setPlan(nuevoPlan);
+                  setResumenHistorial(undefined);
                   setImportaciones(nuevasImportaciones);
                   setPagina(0);
                 }} />
@@ -267,9 +346,26 @@ export default function PlanCosecha({ datos }: Props) {
               onClick={() => setPagina(n => n + 1)}>Siguiente</button>
           </div>
           </div>
+
           <div role="tabpanel" id={id + '-panel-3'}
             aria-labelledby={id + '-tab-3'} hidden={pestana !== 3}>
             {pestana === 3 && (
+              <Suspense fallback={<p role="status">Preparando comparación A/B…</p>}>
+                <ComparadorAB a={slotA} b={slotB} />
+              </Suspense>
+            )}
+          </div>
+          <div role="tabpanel" id={id + '-panel-4'}
+            aria-labelledby={id + '-tab-4'} hidden={pestana !== 4}>
+            <HistorialEscenarios estado={escenarios} onCargar={cargarHistorial} />
+          </div>
+          <div role="tabpanel" id={id + '-panel-5'}
+            aria-labelledby={id + '-tab-5'} hidden={pestana !== 5}>
+            <ManualRutaPRO />
+          </div>
+          <div role="tabpanel" id={id + '-panel-6'}
+            aria-labelledby={id + '-tab-6'} hidden={pestana !== 6}>
+            {pestana === 6 && (
               <Suspense fallback={<p role="status">Preparando monitoreo climático…</p>}>
                 <ClimaCosecha datos={datos} frentesActivos={activos} plan={plan} />
               </Suspense>

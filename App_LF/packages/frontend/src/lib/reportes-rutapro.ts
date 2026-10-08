@@ -154,3 +154,5 @@ export function fechaArchivo(): string {
   const parte = (tipo: string) => partes.find(p => p.type === tipo)?.value;
   return [parte('year'), parte('month'), parte('day')].join('-');
 }
+
+export { redondear as redondearR };
