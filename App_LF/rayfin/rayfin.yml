@@ -1,0 +1,42 @@
+id: app-lf
+name: App_LF
+version: 1.0.0
+services:
+  auth:
+    enabled: true
+    fabric:
+      enabled: true
+      externalEntraExchange: true
+    password:
+      enabled: false
+    allowedRedirectUris:
+      - http://localhost:5173
+      - http://127.0.0.1:5173
+      - https://tawny-echo-4680e577bc-eastus2.webapp.fabricapps.net
+  data:
+    enabled: false
+    path: packages/data
+    buildCommand: npm run build
+  staticHosting:
+    enabled: true
+    path: packages/frontend
+    folder: dist
+    buildCommand: npm run build:fabric
+    indexDocument: index.html
+    assetAccess: protected
+    embedded:
+      only: false
+  storage:
+    enabled: false
+  functions:
+    enabled: false
+connectors:
+  - name: rutapro
+    type: fabric-sqlanalytics
+    config:
+      workspaceId: 72386c8b-38aa-4b51-b086-98e4ec9f90d2
+      itemId: cb7cdab4-f5fe-4811-be15-1be5973d9cab
+    auth:
+      type: application
+    operations:
+      - name: read
