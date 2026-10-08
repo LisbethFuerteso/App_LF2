@@ -88,7 +88,11 @@ export default function App() {
 
         {datos && !loading && (
           <>
-            <section aria-label="Resumen de publicación" className="rounded-xl border bg-card p-600">
+            <details className="rutapro-publicacion">
+              <summary>
+                🗂️ Publicación: {cutoff(datos.publicacion.fechaCorte)}
+                {' · '}{datos.publicacion.perfil}
+              </summary>
               <p className="text-300 text-muted-foreground">Fecha de corte</p>
               <p className="font-heading text-600">{cutoff(datos.publicacion.fechaCorte)}</p>
               <p className="mt-200 text-300">
@@ -108,7 +112,7 @@ export default function App() {
                   </div>
                 ))}
               </dl>
-            </section>
+            </details>
 
             <PlanCosecha key={datos.publicacion.idEjecucion} datos={datos} />
 

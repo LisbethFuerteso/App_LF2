@@ -346,3 +346,429 @@ body,
 }
 .rutapro-resultados [role="tabpanel"] { padding-top: 16px; }
 .rutapro-resultados [role="tabpanel"][hidden] { display: none; }
+
+/* Espacio de trabajo compacto basado en la referencia de Cosecha Estratégica. */
+.rutapro {
+  background: #f1f5f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+.rutapro > div {
+  max-width: 1280px;
+  padding: 20px;
+}
+.rutapro header {
+  padding: 16px 22px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.rutapro header h1 { font-size: 28px; }
+.rutapro header h1 + p { font-size: 14px; }
+.rutapro-publicacion {
+  background: #fff;
+  border: 1px solid #dbe3ed;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+}
+.rutapro-publicacion summary {
+  cursor: pointer;
+  color: #0C25A3;
+  font-weight: 600;
+}
+.rutapro-publicacion[open] > p:first-of-type { margin-top: 12px; }
+.rutapro-plan-layout {
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 14px;
+}
+.rutapro-kpis-superiores {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.rutapro-kpis-superiores > div {
+  background: #fff;
+  border: 1px solid #dbe3ed;
+  border-top: 3px solid #FDC300;
+  border-radius: 6px;
+  padding: 16px;
+  min-width: 0;
+}
+.rutapro-kpis-superiores dt {
+  font-size: 12px;
+  color: #0C25A3;
+}
+.rutapro-kpis-superiores dd {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0C25A3;
+  margin-top: 8px;
+}
+.rutapro-parametros,
+.rutapro-resultados {
+  padding: 14px;
+  border-radius: 6px;
+  border-color: #dbe3ed;
+}
+.rutapro-parametros h2,
+.rutapro-resultados h3 {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.rutapro-parametros label,
+.rutapro-parametros p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.rutapro-parametros fieldset {
+  padding: 8px;
+  border-color: #dbe3ed;
+}
+.rutapro-parametros fieldset > .flex {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+.rutapro-parametros fieldset > .flex label {
+  position: relative;
+  border: 1px solid #dbe3ed;
+  border-radius: 3px;
+  background: #f5f7fb;
+  padding: 5px 2px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 11px;
+}
+.rutapro-parametros fieldset > .flex label:has(input:checked) {
+  border-color: #0C25A3;
+  color: #0C25A3;
+  background: #eaf0ff;
+}
+.rutapro-parametros fieldset > .flex label:focus-within {
+  outline: 2px solid #0C25A3;
+}
+.rutapro-parametros fieldset > .flex input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.rutapro-frentes-actions {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.rutapro-frentes-actions button {
+  padding: 4px 6px;
+  font-size: 11px;
+}
+.rutapro-parametros > button {
+  font-size: 13px;
+  padding: 10px;
+}
+.rutapro-tabs button {
+  flex: 1;
+  padding: 10px 8px;
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .rutapro-plan-layout { grid-template-columns: 1fr; }
+  .rutapro-kpis-superiores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.rutapro-descarga {
+  background: #00B1A9;
+  color: #fff;
+  border-color: #00B1A9;
+  margin: 8px 0;
+}
+.rutapro-descarga:focus-visible {
+  outline: 2px solid #0C25A3;
+  outline-offset: 2px;
+}
+
+.rutapro-icono-mapa {
+  background: transparent;
+  border: none;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+}
+.rutapro .leaflet-control-layers {
+  max-height: 280px;
+  overflow-y: auto;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 12px;
+}
+
+.rutapro-filtro-multiple {
+  min-width: 150px;
+  max-width: 100%;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 12px;
+}
+.rutapro-filtro-multiple > label { display: block; margin-bottom: 4px; }
+.rutapro-filtro-multiple summary {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 10px;
+  background: white;
+  cursor: pointer;
+}
+.rutapro-filtro-opciones {
+  border: 1px solid #ccc;
+  background: white;
+  padding: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+.rutapro-filtro-opciones > input {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+.rutapro-filtro-opciones > label { display: block; padding: 4px 0; }
+.rutapro-filtro-acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+.rutapro-filtro-acciones button {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 3px 5px;
+}
+
+/* RutaPRO: interfaz amplia */
+.rutapro {
+  font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  background: #f3f6fa;
+  color: #17243a;
+}
+.rutapro .font-heading {
+  font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+}
+.rutapro .max-w-rutapro {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding: clamp(16px, 2vw, 32px);
+}
+.rutapro header {
+  border-radius: 14px;
+  padding: 22px 26px;
+  box-shadow: 0 8px 24px rgba(12, 37, 163, 0.12);
+}
+.rutapro header h1 {
+  font-size: clamp(24px, 2vw, 34px);
+  line-height: 1.2;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+.rutapro header p {
+  line-height: 1.5;
+}
+.rutapro-plan-layout {
+  grid-template-columns: clamp(260px, 20vw, 320px) minmax(0, 1fr);
+  gap: 20px;
+}
+.rutapro-parametros,
+.rutapro-resultados {
+  min-width: 0;
+  border-radius: 14px;
+  border-color: #dce4ef;
+  box-shadow: 0 4px 16px rgba(23, 36, 58, 0.04);
+}
+.rutapro-parametros {
+  padding: 20px;
+  font-size: 14px;
+}
+.rutapro-resultados {
+  padding: 22px;
+}
+.rutapro-kpis-superiores {
+  gap: 16px;
+}
+.rutapro-kpis-superiores > div {
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 14px rgba(23, 36, 58, 0.04);
+}
+.rutapro-kpis-superiores dt {
+  font-size: 13px;
+  line-height: 1.4;
+}
+.rutapro-kpis-superiores dd {
+  font-size: clamp(24px, 2vw, 32px);
+  line-height: 1.3;
+  margin-top: 8px;
+}
+.rutapro-tabs {
+  gap: 6px;
+  padding: 6px;
+  background: #edf2f8;
+  border-radius: 10px;
+}
+.rutapro-tabs button {
+  padding: 11px 14px;
+  border-radius: 7px;
+  font-size: 14px;
+}
+.rutapro-tabs button[aria-selected="true"] {
+  background: #0C25A3;
+  color: white;
+}
+.rutapro table {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.rutapro table thead {
+  background: #edf2f8;
+}
+.rutapro table tbody tr:hover {
+  outline: 1px solid #bdcde2;
+  outline-offset: -1px;
+}
+.rutapro button,
+.rutapro input,
+.rutapro select,
+.rutapro summary {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.rutapro button:focus-visible,
+.rutapro input:focus-visible,
+.rutapro select:focus-visible,
+.rutapro summary:focus-visible {
+  outline: 2px solid #0C25A3;
+  outline-offset: 3px;
+}
+@media (max-width: 900px) {
+  .rutapro-plan-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rutapro header {
+    padding: 18px;
+  }
+  .rutapro-resultados {
+    padding: 16px;
+  }
+  .rutapro-tabs {
+    flex-wrap: wrap;
+  }
+}
+
+
+/* RutaPRO: mover suertes */
+.rutapro-map-gestion {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+.rutapro-map-gestion > * { min-width: 0; }
+.rutapro-mover {
+  border: 1px solid #dce4ef;
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+  font-size: 13px;
+}
+.rutapro-mover h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.rutapro-mover p { margin: 10px 0; }
+.rutapro-mover input, .rutapro-mover select {
+  width: 100%;
+  border: 1px solid #c9d4e3;
+  border-radius: 7px;
+  padding: 9px;
+  background: white;
+  color: #17243a;
+}
+.rutapro-mover-lista {
+  max-height: 390px;
+  overflow: auto;
+  margin: 12px 0;
+}
+.rutapro-mover-lista button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #e4eaf2;
+}
+.rutapro-mover-lista button[aria-pressed="true"] {
+  background: #eaf0ff;
+  box-shadow: inset 3px 0 #0C25A3;
+}
+.rutapro-mover-fila { display: block; margin-top: 5px; }
+.rutapro-mover-accion {
+  border-top: 1px solid #dce4ef;
+  padding-top: 12px;
+}
+.rutapro-mover-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.rutapro-mover-botones button {
+  padding: 9px 12px;
+  border-radius: 7px;
+  border: 1px solid #c9d4e3;
+}
+.rutapro-mover-botones button:first-child {
+  background: #0C25A3;
+  color: white;
+}
+.rutapro-mover-botones button:disabled { opacity: .5; }
+.rutapro-mover button:focus-visible {
+  outline: 2px solid #0C25A3;
+  outline-offset: 2px;
+}
+@media (max-width: 1200px) {
+  .rutapro-map-gestion { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* RutaPRO: comentarios persistentes */
+.rutapro-comentario {
+  width: min(620px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  margin: auto;
+  padding: 24px;
+  overflow: auto;
+  border: 1px solid #dce4ef;
+  border-radius: 14px;
+  color: #17243a;
+  background: white;
+  font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  box-shadow: 0 24px 70px rgba(15, 30, 55, .25);
+}
+.rutapro-comentario::backdrop { background: rgba(15, 30, 55, .4); }
+.rutapro-comentario h2 {
+  font-size: 20px; font-weight: 700; margin-bottom: 16px;
+}
+.rutapro-comentario p { margin: 10px 0; }
+.rutapro-comentario label { display: block; margin: 16px 0 8px; }
+.rutapro-comentario textarea {
+  width: 100%;
+  min-height: 130px;
+  padding: 12px;
+  border: 1px solid #c9d4e3;
+  border-radius: 8px;
+  resize: vertical;
+}
+.rutapro-comentario footer {
+  display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;
+}
+.rutapro-comentario button {
+  padding: 9px 14px; border: 1px solid #c9d4e3; border-radius: 7px;
+}
+.rutapro-comentario button[type="submit"] { background: #0C25A3; color: white; }
+.rutapro-comentario button:disabled { opacity: .5; }
+.rutapro-comentario [role="alert"] { color: #b42318; }

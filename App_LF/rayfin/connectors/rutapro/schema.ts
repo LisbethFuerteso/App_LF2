@@ -1,3 +1,7 @@
+import { RutaproClimateChunk } from './RutaproClimateChunk.js';
+export { RutaproClimateChunk } from './RutaproClimateChunk.js';
+import { RutaproRoadChunk } from './RutaproRoadChunk.js';
+export { RutaproRoadChunk } from './RutaproRoadChunk.js';
 import { RutaproGeometryChunk } from './RutaproGeometryChunk.js';
 export { RutaproGeometryChunk } from './RutaproGeometryChunk.js';
 import type { GraphQLBackedConnector } from '@microsoft/rayfin-connector-fabric-graphql';
@@ -24,8 +28,8 @@ export { RutaproDfControlCalidad } from './RutaproDfControlCalidad.js';
 export { RutaproDfPendientes } from './RutaproDfPendientes.js';
 export const connectorConfig = {
   connector: 'fabric-sqlanalytics', operations: ['read'],
-  entities: { RutaproGeometryChunk, RutaproPublicaciones, RutaproContract, RutaproDfPrograma, RutaproDfClimaticas, RutaproDfEntradaFrentes, RutaproDataShapeWgs84, RutaproVidWgs84, RutaproVipWgs84, RutaproDfControlCalidad, RutaproDfPendientes },
+  entities: { RutaproClimateChunk, RutaproRoadChunk, RutaproGeometryChunk, RutaproPublicaciones, RutaproContract, RutaproDfPrograma, RutaproDfClimaticas, RutaproDfEntradaFrentes, RutaproDataShapeWgs84, RutaproVidWgs84, RutaproVipWgs84, RutaproDfControlCalidad, RutaproDfPendientes },
 } as const satisfies ConnectorConfig;
-export type RutaproSchema = GraphQLBackedConnector<{ RutaproGeometryChunk: typeof RutaproGeometryChunk, RutaproPublicaciones: typeof RutaproPublicaciones; RutaproContract: typeof RutaproContract; RutaproDfPrograma: typeof RutaproDfPrograma; RutaproDfClimaticas: typeof RutaproDfClimaticas; RutaproDfEntradaFrentes: typeof RutaproDfEntradaFrentes; RutaproDataShapeWgs84: typeof RutaproDataShapeWgs84; RutaproVidWgs84: typeof RutaproVidWgs84; RutaproVipWgs84: typeof RutaproVipWgs84; RutaproDfControlCalidad: typeof RutaproDfControlCalidad; RutaproDfPendientes: typeof RutaproDfPendientes },
+export type RutaproSchema = GraphQLBackedConnector<{ RutaproClimateChunk: typeof RutaproClimateChunk; RutaproRoadChunk: typeof RutaproRoadChunk; RutaproGeometryChunk: typeof RutaproGeometryChunk, RutaproPublicaciones: typeof RutaproPublicaciones; RutaproContract: typeof RutaproContract; RutaproDfPrograma: typeof RutaproDfPrograma; RutaproDfClimaticas: typeof RutaproDfClimaticas; RutaproDfEntradaFrentes: typeof RutaproDfEntradaFrentes; RutaproDataShapeWgs84: typeof RutaproDataShapeWgs84; RutaproVidWgs84: typeof RutaproVidWgs84; RutaproVipWgs84: typeof RutaproVipWgs84; RutaproDfControlCalidad: typeof RutaproDfControlCalidad; RutaproDfPendientes: typeof RutaproDfPendientes },
   typeof connectorConfig
 >;

@@ -1,7 +1,19 @@
-/**
- * Entity map shared by the data registration package and typed browser client.
- *
- * It remains empty while the data service is disabled. Data capabilities add
- * entity keys here so every runtime consumes the same schema contract.
- */
-export type UniversalAppSchema = Record<string, never>;
+export interface RutaproCommentRecord {
+  id: string;
+  llave: string;
+  revision: string;
+  fragmentos: number;
+  longitud: number;
+  sha256: string;
+  actualizada: Date;
+}
+export interface RutaproCommentChunkRecord {
+  id: string;
+  revision: string;
+  segmento: number;
+  texto: string;
+}
+export type UniversalAppSchema = {
+  RutaproComment: RutaproCommentRecord;
+  RutaproCommentChunk: RutaproCommentChunkRecord;
+};

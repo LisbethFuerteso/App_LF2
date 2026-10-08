@@ -14,9 +14,10 @@ services:
       - http://127.0.0.1:5173
       - https://tawny-echo-4680e577bc-eastus2.webapp.fabricapps.net
   data:
-    enabled: false
+    enabled: true
     path: packages/data
     buildCommand: npm run build
+    dialect: "mssql"
   staticHosting:
     enabled: true
     path: packages/frontend

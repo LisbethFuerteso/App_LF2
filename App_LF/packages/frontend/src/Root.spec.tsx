@@ -1,5 +1,5 @@
 import type { OpaqueSession } from '@microsoft/rayfin-auth';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Root } from './Root';
@@ -139,7 +139,13 @@ describe('protected app content with standalone sign-in', () => {
     expect(
       await screen.findByRole('heading', { name: '🚜 Cosecha estratégica 4.1 - INCAUCA S.A.S' })
     ).toBeVisible();
-    await act(async () => notify?.(null));
+    await waitFor(() => {
+      expect(auth.onSessionChange).toHaveBeenCalledTimes(1);
+      expect(notify).toBeTypeOf('function');
+    });
+    const listener = notify;
+    if (!listener) throw new Error('No se registró el listener de sesión.');
+    await act(async () => listener(null));
     expect(
       await screen.findByRole('button', { name: 'Sign in with Microsoft' })
     ).toBeVisible();
